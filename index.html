@@ -1,82 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erik Malmgren</title>
-  <link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
-  <style>
-    body {
-      font-family: "Times New Roman", Times, serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #ffffff;
-      color: #000000;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erik Malmgren</title>
+	<link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            color: #000000;
+        }
 
-    .content {
-      text-align: center;
-    }
+        .content {
+            text-align: center;
+        }
 
-    .name {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-    .contact-info {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    /* New styles for cursor trail */
-    .trail {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: rgba(0, 0, 0, 0.5);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      animation: fade-out 1s forwards;
-    }
-
-    @keyframes fade-out {
-      to {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
-      }
-    }
-  </style>
+        .contact-info {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-  <div class="content">
-    <div class="name">Erik Malmgren</div>
-    <div class="contact-info">erik@malmgren.dev</div>
-    <div class="contact-info">+46 708 77 27 76 </div>
-  </div>
-
-  <script>
-    document.addEventListener('mousedown', function (e) {
-      if (e.button === 0) { // Left mouse button
-        // Create a new "trail" element
-        const trail = document.createElement('div');
-        trail.className = 'trail';
-        trail.style.left = e.pageX + 'px';
-        trail.style.top = e.pageY + 'px';
-        document.body.appendChild(trail);  
-
-
-        // Remove "trail" after animation is complete
-        setTimeout(function () {
-          trail.remove();
-        }, 1000); // Matches animation duration in CSS
-      }
-    });
-  </script>
+    <div class="content">
+        <div class="name">Erik Malmgren</div>
+        <div class="contact-info">erik@malmgren.dev</div>
+        <div class="contact-info">+46 708 77 27 76 </div>
+    </div>
 </body>
 </html>
