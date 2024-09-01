@@ -6,7 +6,32 @@
   <title>Erik Malmgren</title>
   <link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
   <style>
-    /* ... (rest of your styles) */
+    body {
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .content {
+      text-align: center;
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .contact-info {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
 
     /* New styles for cursor trail */
     .trail {
@@ -37,13 +62,14 @@
 
   <script>
     document.addEventListener('mousedown', function (e) {
-      if (e.button === 0) { // Left mouse button
+      while (e.button === 0) { // Left mouse button
         // Create a new "trail" element
         const trail = document.createElement('div');
         trail.className = 'trail';
         trail.style.left = e.pageX + 'px';
         trail.style.top = e.pageY + 'px';
-        document.body.appendChild(trail);
+        document.body.appendChild(trail);  
+
 
         // Remove "trail" after animation is complete
         setTimeout(function () {
