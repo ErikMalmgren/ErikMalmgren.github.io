@@ -62,7 +62,7 @@
 
   <script>
     document.addEventListener('mousedown', function (e) {
-      while (e.button === 0) { // Left mouse button
+      if (e.button === 0) { // Left mouse button
         // Create a new "trail" element
         const trail = document.createElement('div');
         trail.className = 'trail';
