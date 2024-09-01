@@ -3,47 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Erik Malmgren</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Times New Roman", Times, serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .content {
             text-align: center;
-            background-color: #f4f4f4;
         }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
+
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        section {
-            padding: 20px;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+
+        .contact-info {
+            font-size: 16px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Website</h1>
-    </header>
-    <section>
-        <p>This is a simple one-page website built with HTML and CSS.</p>
-        <p>You can customize this page by adding your own content, styles, and scripts.</p>
-    </section>
-    <footer>
-        <p>&copy; 2024 My Website</p>
-    </footer>
+    <div class="content">
+        <div class="name">Erik Malmgren</div>
+        <div class="contact-info">erik@malmgren.dev</div>
+        <div class="contact-info">+46 708 77 27 76 </div>
+    </div>
 </body>
 </html>
