@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor Trail</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            background-color: #ffffff;
+        }
+
+        .trail {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: fade-out 1s forwards;
+        }
+
+        @keyframes fade-out {
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener('mousemove', function (e) {
+            // Skapa en ny "trail" varje gång musen rör sig
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = e.pageX + 'px';
+            trail.style.top = e.pageY + 'px';
+            document.body.appendChild(trail);
+
+            // Ta bort "trail" efter animationen är klar
+            setTimeout(function () {
+                trail.remove();
+            }, 1000); // Motsvarar varaktigheten i CSS-animationen
+        });
+    </script>
+</body>
+</html>
