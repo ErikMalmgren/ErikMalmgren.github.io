@@ -1,0 +1,549 @@
+/* terminal.css — the whole design system for malmgren.dev
+ *
+ * All colour and spacing tokens live in :root. Nothing else in the site
+ * hardcodes a colour. Dark is the default; light is a full inversion so the
+ * site is not hostile to anyone browsing in a bright environment.
+ */
+
+:root {
+    --bg:           #0d1117;
+    --fg:           #c9d1d9;
+    --prompt:       #7ee787;
+    --muted:        #8b949e;
+    --link:         #79c0ff;
+    --link-visited: #d2a8ff;
+    --rule:         #21262d;
+    --focus:        #f0883e;
+    --err:          #ff7b72;
+
+    --col:      72ch;
+    --step:     1.6rem;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg:           #ffffff;
+        --fg:           #1f2328;
+        --prompt:       #1a7f37;
+        --muted:        #59636e;
+        --link:         #0969da;
+        --link-visited: #8250df;
+        --rule:         #d1d9e0;
+        --focus:        #bc4c00;
+        --err:          #cf222e;
+    }
+}
+
+/* ---------- viewport scale ----------
+ *
+ * Line length is the constraint, not available space. 45-75 characters is the
+ * classic range for prose and WCAG 1.4.8 caps at 80; a monospace UI tolerates
+ * a little more, so the measure stops at 96ch. Past roughly there the eye
+ * starts losing the start of the next line on the return sweep.
+ *
+ * The base size grows with it, and that is the more important half: 16px is
+ * small on a 1440p display, and because `ch` scales with font-size the two
+ * compound. 72ch @ 16px = 694px; 96ch @ 18px = ~1040px.
+ *
+ * `rem` in a media query always resolves against the initial 16px root, so
+ * these breakpoints are unaffected by the font-size they themselves set.
+ */
+
+@media (min-width: 80rem) {          /* >= 1280px */
+    :root {
+        --col: 80ch;
+    }
+}
+
+@media (min-width: 100rem) {         /* >= 1600px */
+    :root {
+        --col: 88ch;
+    }
+
+    html {
+        font-size: 106.25%;          /* 17px */
+    }
+}
+
+@media (min-width: 120rem) {         /* >= 1920px */
+    :root {
+        --col: 96ch;
+    }
+
+    html {
+        font-size: 112.5%;           /* 18px */
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /* Keep the scrollbar gutter reserved so short and tall pages don't jump. */
+    scrollbar-gutter: stable;
+}
+
+body {
+    margin: 0;
+    padding: var(--step) 1.25rem 4rem;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+    /* Monospace at small sizes benefits from no synthetic smoothing tweaks. */
+    text-size-adjust: 100%;
+}
+
+.wrap {
+    max-width: var(--col);
+    margin: 0 auto;
+}
+
+/* ---------- links ---------- */
+
+a {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+a:visited {
+    color: var(--link-visited);
+}
+
+a:hover {
+    text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.skip {
+    position: absolute;
+    left: -9999px;
+}
+
+.skip:focus {
+    position: static;
+    display: inline-block;
+    margin-bottom: var(--step);
+}
+
+/* ---------- prompt headings ----------
+ *
+ * The prompt is a real <span aria-hidden="true"> in the markup rather than a
+ * CSS ::before, because screen readers do announce generated content — and
+ * "erik at malmgren tilde dollar" before every heading is unusable. This way
+ * the heading's accessible name is just the command.
+ */
+
+.cmd {
+    margin: calc(var(--step) * 1.75) 0 var(--step);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    /* Long prompts must wrap on narrow screens instead of forcing h-scroll. */
+    overflow-wrap: anywhere;
+}
+
+h1.cmd {
+    margin-top: 0;
+}
+
+.prompt {
+    color: var(--prompt);
+    user-select: none;
+}
+
+/* ---------- content ---------- */
+
+p,
+ul,
+ol,
+dl {
+    margin: 0 0 var(--step);
+}
+
+ul,
+ol {
+    padding-left: 2ch;
+}
+
+li {
+    margin-bottom: 0.4rem;
+}
+
+.lede {
+    font-size: 1.0625rem;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+strong {
+    color: var(--fg);
+    font-weight: 700;
+}
+
+hr {
+    margin: calc(var(--step) * 1.5) 0;
+    border: 0;
+    border-top: 1px solid var(--rule);
+}
+
+/* A plain key/value block — used for contact details and CV facts. */
+.kv {
+    display: grid;
+    grid-template-columns: 12ch 1fr;
+    gap: 0.4rem 1ch;
+}
+
+.kv dt {
+    color: var(--muted);
+}
+
+.kv dd {
+    margin: 0;
+}
+
+@media (max-width: 30rem) {
+    .kv {
+        grid-template-columns: 1fr;
+        gap: 0 0;
+    }
+
+    .kv dd {
+        margin-bottom: 0.6rem;
+    }
+}
+
+/* An entry in a listing — a project, a job, a degree. */
+.entry {
+    margin-bottom: calc(var(--step) * 1.5);
+}
+
+.entry h2,
+.entry h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.entry .meta {
+    margin: 0 0 0.5rem;
+    color: var(--muted);
+}
+
+.entry p:last-child {
+    margin-bottom: 0;
+}
+
+/* Marks unfinished content. Deliberately loud so it can't ship by accident. */
+.todo {
+    border-left: 2px solid var(--focus);
+    padding-left: 1ch;
+    color: var(--muted);
+}
+
+.todo::before {
+    content: "TODO: ";
+    color: var(--focus);
+}
+
+/* Static block cursor. No animation anywhere on this site, by design. */
+.cursor {
+    color: var(--prompt);
+    user-select: none;
+}
+
+/* ---------- erikfetch ----------
+ *
+ * The neofetch riff on the landing page: monogram on the left where a distro
+ * logo would go, facts on the right, palette swatches underneath.
+ */
+
+.fetch {
+    display: flex;
+    align-items: flex-start;
+    gap: 3ch;
+    margin-bottom: var(--step);
+}
+
+.fetch-art {
+    flex: 0 0 auto;
+    margin: 0;
+    color: var(--prompt);
+    line-height: 1.05;
+    /* The art is decorative and reads as noise to a screen reader; the facts
+     * beside it carry the same information as real markup. */
+    user-select: none;
+}
+
+.fetch-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.fetch-title {
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 700;
+}
+
+.fetch-info {
+    grid-template-columns: 11ch 1fr;
+    margin-bottom: var(--step);
+}
+
+.accent {
+    color: var(--prompt);
+}
+
+/* A .todo inside the facts list stays inline rather than becoming a block
+ * callout — it is one field, not a section. */
+.fetch-info .todo {
+    border-left: 0;
+    padding-left: 0;
+}
+
+.palette {
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.sw-prompt  { color: var(--prompt); }
+.sw-link    { color: var(--link); }
+.sw-visited { color: var(--link-visited); }
+.sw-focus   { color: var(--focus); }
+.sw-err     { color: var(--err); }
+.sw-muted   { color: var(--muted); }
+
+/* Side by side needs roughly 19ch of art + 45ch of facts. Below that the
+ * monogram sits above the list instead of squeezing it. */
+@media (max-width: 46rem) {
+    .fetch {
+        flex-direction: column;
+        gap: var(--step);
+    }
+}
+
+/* ---------- navigation ---------- */
+
+.nav {
+    margin-top: calc(var(--step) * 2);
+    padding-top: var(--step);
+    border-top: 1px solid var(--rule);
+    /* Wraps to multiple rows on narrow screens rather than overflowing. */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2ch;
+}
+
+.nav a {
+    text-decoration: none;
+}
+
+.nav a::before {
+    content: "[";
+    color: var(--muted);
+}
+
+.nav a::after {
+    content: "]";
+    color: var(--muted);
+}
+
+.nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.nav a[aria-current="page"] {
+    color: var(--prompt);
+}
+
+
+/* ---------- shell ----------
+ *
+ * Everything below is added at runtime by js/shell.js. Nothing here may be
+ * required to read the page: with JavaScript off none of these elements exist
+ * and the document must still be complete. See CLAUDE.md.
+ */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+code {
+    font: inherit;
+    color: var(--prompt);
+}
+
+/* Only meaningful once there is a prompt to type into. */
+.hint {
+    display: none;
+}
+
+.has-shell .hint {
+    display: block;
+}
+
+/* An echoed command. Deliberately identical to a server-rendered .cmd heading
+ * so a typed command and a printed one are indistinguishable. */
+.echo {
+    margin-top: calc(var(--step) * 1.5);
+}
+
+.out {
+    margin-bottom: 0;
+}
+
+/* The section heading is stripped when output is appended, so whatever ends up
+ * first must not keep .cmd's large top margin. */
+.out > :first-child {
+    margin-top: 0;
+}
+
+.err {
+    color: var(--err);
+}
+
+/* The live prompt line. */
+.line {
+    display: flex;
+    align-items: baseline;
+    gap: 1ch;
+    margin-top: calc(var(--step) * 1.5);
+}
+
+.line input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--fg);
+    font: inherit;
+    /* A caret is the platform's focus indicator for a text field, so no
+     * outline is drawn across the prompt. */
+    caret-color: var(--prompt);
+    outline: none;
+}
+
+.helplist {
+    grid-template-columns: 10ch 1fr;
+}
+
+.helplist dt {
+    color: var(--prompt);
+}
+
+/* ---------- shell layout ----------
+ *
+ * Pins the prompt and scrolls the scrollback internally, so the page stops
+ * growing downwards without end. Scoped to .has-shell: with JavaScript off
+ * there is no prompt to pin and the document flows normally.
+ *
+ * The min-height guard is a safety valve — on a landscape phone a viewport-
+ * height terminal would squeeze the output to a couple of lines, so below that
+ * the page simply flows instead.
+ */
+
+@media (min-height: 26rem) {
+    .has-shell body {
+        height: 100vh;
+        height: 100dvh;    /* excludes mobile browser chrome and the keyboard */
+        padding-bottom: var(--step);
+        overflow: hidden;
+    }
+
+    .has-shell .wrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .has-shell #main {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        /* Without this a flex child refuses to shrink below its content. */
+        min-height: 0;
+    }
+
+    .has-shell .log {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+        /* The platform scrollbar reads as light chrome on a dark terminal. */
+        scrollbar-width: thin;
+        scrollbar-color: var(--rule) transparent;
+    }
+
+    .has-shell .line {
+        flex: 0 0 auto;
+        margin-top: 0;
+        padding-top: var(--step);
+        border-top: 1px solid var(--rule);
+    }
+
+    .has-shell .nav {
+        flex: 0 0 auto;
+        margin-top: var(--step);
+        padding-top: 0;
+        border-top: 0;
+    }
+}
+
+/* ---------- print ----------
+ *
+ * cv.html is the page most likely to be printed or saved as PDF.
+ */
+
+@media print {
+    :root {
+        --bg: #ffffff;
+        --fg: #000000;
+        --muted: #444444;
+        --prompt: #000000;
+        --link: #000000;
+        --link-visited: #000000;
+        --rule: #999999;
+    }
+
+    body {
+        padding: 0;
+        font-size: 11pt;
+    }
+
+    .nav,
+    .skip,
+    .cursor,
+    .line {
+        display: none;
+    }
+
+    /* Print the destination of links, since a printed page can't be clicked. */
+    main a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        color: var(--muted);
+        word-break: break-all;
+    }
+}

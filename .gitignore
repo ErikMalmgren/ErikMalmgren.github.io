@@ -1,0 +1,29 @@
+# NOTE: this repo *is* the published website — every committed file is served
+# at www.malmgren.dev. Only list things that must not be published or must not
+# be tracked. Do not add site content here.
+#
+# This is unrelated to .dockerignore, which controls the Docker build context.
+
+# Claude Code machine-local settings.
+# A shared .claude/settings.json is fine to commit; this one is per-machine.
+.claude/settings.local.json
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editors
+*.swp
+*~
+.idea/
+.vscode/
+
+# Node. Nothing here installs into the repo — CI runs html-validate through
+# npx — but this catches a stray local `npm install`.
+node_modules/
+npm-debug.log*
+
+# Secrets. There should never be any in a static site, but a committed .env is
+# unrecoverable once pushed to a public repo.
+.env
+.env.*
