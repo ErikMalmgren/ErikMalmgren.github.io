@@ -1,8 +1,6 @@
 # NOTE: this repo *is* the published website — every committed file is served
 # at www.malmgren.dev. Only list things that must not be published or must not
 # be tracked. Do not add site content here.
-#
-# This is unrelated to .dockerignore, which controls the Docker build context.
 
 # Claude Code machine-local settings.
 # A shared .claude/settings.json is fine to commit; this one is per-machine.

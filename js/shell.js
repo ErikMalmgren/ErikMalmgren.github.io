@@ -52,6 +52,18 @@
         return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
+    /* Focusing the prompt pops the on-screen keyboard on a touch device, which
+     * is not what someone tapping a link asked for. A mouse or trackpad always
+     * has a physical keyboard behind it, so focus is only helpful there.
+     * Queried at call time, not cached — a tablet can gain a keyboard. */
+    function pointerFine() {
+        return window.matchMedia('(pointer: fine)').matches;
+    }
+
+    function focusPrompt() {
+        if (pointerFine()) input.focus();
+    }
+
     function el(tag, cls, text) {
         var n = document.createElement(tag);
         if (cls) n.className = cls;
@@ -202,6 +214,7 @@
     function typeCommand(text) {
         if (reduced()) {
             input.value = text;
+            focusPrompt();
             return Promise.resolve(true);
         }
         return new Promise(function (resolve) {
@@ -219,7 +232,7 @@
                 timer = setTimeout(tick, 28 + Math.random() * 22);
             };
             input.value = '';
-            input.focus();
+            focusPrompt();
             timer = setTimeout(tick, 50);
         });
     }
@@ -288,11 +301,13 @@
         });
 
         /* Clicking the terminal focuses the prompt — but not when the user is
-         * selecting text or aiming at a link. */
+         * selecting text or aiming at a link, and not on touch, where it would
+         * throw up the keyboard on every stray tap. Tapping the input itself
+         * still focuses natively, which is the deliberate gesture. */
         main.addEventListener('click', function (e) {
             if (String(window.getSelection())) return;
             if (e.target.closest('a, button, input, label, dt')) return;
-            input.focus();
+            focusPrompt();
         });
 
         document.querySelectorAll('.nav a').forEach(function (a) {

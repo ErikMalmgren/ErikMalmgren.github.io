@@ -446,6 +446,15 @@ code {
     outline: none;
 }
 
+/* Tapping the prompt is the deliberate way to summon the keyboard on a phone,
+ * so it needs to be a real target — a bare line is ~29px against the ~44px
+ * guidance. Only the input grows; the prompt keeps its baseline. */
+@media (pointer: coarse) {
+    .line input {
+        min-height: 2.75rem;
+    }
+}
+
 .helplist {
     grid-template-columns: 10ch 1fr;
 }
