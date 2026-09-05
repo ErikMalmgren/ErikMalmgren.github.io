@@ -15,11 +15,12 @@
 <div class="wrap">
 <main id="main">
 
+<section id="bio">
 <h1 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat about.md</h1>
 
 <p class="lede">
     I'm a software engineer at Netcompany, working across the stack on client web
-    applications — Java and Spring on the backend, React on the front. The backend
+    applications, Java and Spring on the backend, React on the front. The backend
     is where most of my work happens and where I want to keep going.
 </p>
 
@@ -27,7 +28,7 @@
     A lot of it is integration work. I've built secure workflows against Danish public
     infrastructure, notably NemKonto, that distribute digital and physical correspondence
     and sensitive information to private citizens, plus the backend frameworks and batch
-    jobs behind large-scale communication processes — all of it under compliance
+    jobs behind large-scale communication processes, all of it under compliance
     constraints for handling personal data.
 </p>
 
@@ -35,10 +36,19 @@
     Before that, five years at LTH. My thesis was an interview study on generative AI in
     pair programming and code review; the interesting result was that the benefit splits
     by seniority. Seniors gain because they spot errors in generated code immediately,
-    juniors gain a better path to self-directed learning — but only when the tool is used
+    juniors gain a better path to self-directed learning, but only when the tool is used
     deliberately.
 </p>
 
+<p>
+    The details split three ways:
+    <a href="/about.html#education">education</a> ·
+    <a href="/about.html#skills">skills</a> ·
+    <a href="/about.html#coursework">coursework</a>
+</p>
+</section>
+
+<section id="education">
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat education.md</h2>
 
 <div class="entry">
@@ -47,11 +57,13 @@
     <p>
         Swedish title: <em>Civilingenjörsexamen i informations- och kommunikationsteknik</em>.
         Master's thesis: <em>Exploring the Integration of Generative AI in Pair Programming
-        and Code Review</em> — a half-year interview study.
+        and Code Review</em>, a half-year interview study.
         Degree certificate and full transcript are linked from the <a href="/cv.html">CV</a>.
     </p>
 </div>
+</section>
 
+<section id="skills">
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat skills.md</h2>
 
 <dl class="kv">
@@ -70,11 +82,13 @@
 
 <p class="muted">
     That's the list I'd defend in an interview, and it stops there. Azure DevOps means
-    build pipelines, not cloud infrastructure — on my projects that work sits with the
-    operations teams. The C and concurrency line is coursework, not production; what it
-    is worth is described below.
+    build pipelines, not cloud infrastructure, on my projects that work sits with the
+    operations teams. The C and concurrency line is coursework, not production; what that
+    covered is under <a href="/about.html#coursework">coursework</a>.
 </p>
+</section>
 
+<section id="coursework">
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> ls coursework/</h2>
 
 <p class="muted">Backend-relevant coursework from the degree, for reference:</p>
@@ -108,12 +122,13 @@
     <li>Configuration Management</li>
     <li>Object-oriented Modelling and Design · Software Engineering Methodology</li>
 </ul>
+</section>
 
 </main>
 
 <!-- NAV: duplicated on every page. Change here == change in every .html file. -->
 <nav class="nav" aria-label="Main">
-<a href="/">home</a> <a href="/about.html" aria-current="page">about</a> <a href="/projects.html">projects</a> <a href="/cv.html">cv</a>
+<a href="/">home</a> <a href="/about.html" aria-current="page">about</a> <a href="/projects.html">projects</a> <a href="/cv.html">cv</a> <a href="/help.html">help</a> <a href="/clear.html">clear</a>
 </nav>
 
 </div>

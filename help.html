@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commands — Erik Malmgren</title>
+<meta name="description" content="The commands this site understands, and what each one prints.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d1117'/%3E%3Ctext x='1.5' y='12.5' font-family='monospace' font-size='13' fill='%237ee787'%3E%3E%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://www.malmgren.dev/help.html">
+<link rel="stylesheet" href="/css/terminal.css">
+<script src="/js/shell.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+<main id="main">
+
+<h1 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> help</h1>
+
+<!-- The one list of commands. `shell.js` prints this page rather than
+     generating its own, so adding a command means adding a row here. -->
+<dl class="kv helplist">
+    <dt><a href="/#whoami">whoami</a></dt>
+    <dd>the summary screen</dd>
+
+    <dt><a href="/about.html#bio">about</a></dt>
+    <dd>who I am, in prose</dd>
+
+    <dt><a href="/about.html#education">education</a></dt>
+    <dd>degree and thesis</dd>
+
+    <dt><a href="/about.html#skills">skills</a></dt>
+    <dd>what I'd defend in an interview</dd>
+
+    <dt><a href="/about.html#coursework">coursework</a></dt>
+    <dd>courses, in detail</dd>
+
+    <dt><a href="/projects.html">projects</a></dt>
+    <dd>things I've built</dd>
+
+    <dt><a href="/cv.html">cv</a></dt>
+    <dd>experience and documents</dd>
+
+    <dt><a href="/#contact">contact</a></dt>
+    <dd>how to reach me</dd>
+
+    <dt><a href="/clear.html">clear</a></dt>
+    <dd>clear the screen</dd>
+
+    <dt><a href="/help.html">help</a></dt>
+    <dd>this message</dd>
+</dl>
+
+<p class="muted">
+    Every command prints a piece of this site, and the names above link to the same
+    content — nothing here is hidden behind the terminal.
+</p>
+
+<p class="hint muted">
+    Tab completes a command name, and case doesn't matter — <code>Cv</code> is <code>cv</code>.
+    <kbd>↑</kbd> and <kbd>↓</kbd> walk back through what you have typed.
+</p>
+
+</main>
+
+<!-- NAV: duplicated on every page. Change here == change in every .html file. -->
+<nav class="nav" aria-label="Main">
+<a href="/">home</a> <a href="/about.html">about</a> <a href="/projects.html">projects</a> <a href="/cv.html">cv</a> <a href="/help.html" aria-current="page">help</a> <a href="/clear.html">clear</a>
+</nav>
+
+</div>
+</body>
+</html>

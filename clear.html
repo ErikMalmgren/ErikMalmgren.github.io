@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 — Erik Malmgren</title>
+<title>clear — Erik Malmgren</title>
+<!-- An empty screen is not something a search result should ever land on. -->
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d1117'/%3E%3Ctext x='1.5' y='12.5' font-family='monospace' font-size='13' fill='%237ee787'%3E%3E%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/css/terminal.css">
@@ -14,11 +15,10 @@
 <div class="wrap">
 <main id="main">
 
-<h1 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cd &lt;that page&gt;</h1>
-
-<p>bash: cd: no such file or directory</p>
-
-<p class="muted">The page you asked for isn't here. The links below still work.</p>
+<!-- The page `clear` leaves you on: a fresh screen. The heading is here for
+     structure and for a screen reader, not to be looked at — putting anything
+     visible here would defeat the point of the command. -->
+<h1 class="visually-hidden">Cleared</h1>
 
 <p data-static-prompt><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> <span class="cursor" aria-hidden="true">█</span></p>
 
@@ -26,7 +26,7 @@
 
 <!-- NAV: duplicated on every page. Change here == change in every .html file. -->
 <nav class="nav" aria-label="Main">
-<a href="/">home</a> <a href="/about.html">about</a> <a href="/projects.html">projects</a> <a href="/cv.html">cv</a> <a href="/help.html">help</a> <a href="/clear.html">clear</a>
+<a href="/">home</a> <a href="/about.html">about</a> <a href="/projects.html">projects</a> <a href="/cv.html">cv</a> <a href="/help.html">help</a> <a href="/clear.html" aria-current="page">clear</a>
 </nav>
 
 </div>

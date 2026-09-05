@@ -12,32 +12,52 @@
     var PROMPT = 'erik@malmgren:~$';
 
     /* Commands that print part of the site. `sel` narrows a page to one
-     * section; omit it to take the whole <main>. */
+     * section; omit it to take the whole <main>. `help` is in here rather than
+     * generated: help.html is the one list of commands, so the printed list and
+     * the page a visitor without JavaScript reads cannot drift apart. */
     var PAGES = {
-        about:    { url: '/about.html',    desc: 'background and education' },
-        projects: { url: '/projects.html', desc: "things I've built" },
-        cv:       { url: '/cv.html',       desc: 'experience and documents' },
-        contact:  { url: '/', sel: '#contact',   desc: 'how to reach me' },
-        erikfetch:{ url: '/', sel: '#erikfetch', desc: 'the summary screen' },
-        /* Undocumented alias — `whoami` is the reflex, erikfetch is the name. */
-        whoami:   { url: '/', sel: '#erikfetch', desc: 'the summary screen' }
+        about:      { url: '/about.html', sel: '#bio' },
+        education:  { url: '/about.html', sel: '#education' },
+        skills:     { url: '/about.html', sel: '#skills' },
+        coursework: { url: '/about.html', sel: '#coursework' },
+        projects:  { url: '/projects.html' },
+        cv:        { url: '/cv.html' },
+        help:      { url: '/help.html' },
+        contact:   { url: '/', sel: '#contact' },
+        whoami:    { url: '/', sel: '#whoami' }
     };
 
-    var BUILTINS = {
-        ls:    'list pages',
-        clear: 'clear the screen',
-        help:  'this message'
-    };
-
-    /* Order shown by `help`. */
-    var ORDER = ['erikfetch', 'about', 'projects', 'cv', 'contact', 'ls', 'clear', 'help'];
+    /* Tab completion, and the order LINK_TO_CMD resolves ties in. What `help`
+     * lists lives in help.html. */
+    var ORDER = ['whoami', 'about', 'education', 'skills', 'coursework',
+                 'projects', 'cv', 'contact', 'clear', 'help'];
 
     var NAV_TO_CMD = {
-        '/': 'erikfetch',
+        '/': 'whoami',
         '/about.html': 'about',
         '/projects.html': 'projects',
-        '/cv.html': 'cv'
+        '/cv.html': 'cv',
+        '/help.html': 'help',
+        /* clear.html exists so the nav link has somewhere to go without
+         * JavaScript: it is the screen the command leaves you on. */
+        '/clear.html': 'clear'
     };
+
+    /* A link into a section the shell can print runs the command instead of
+     * navigating. Built from PAGES so the two can't drift, and walked in ORDER
+     * so a section reachable under two names would resolve to the first one
+     * listed. Keys are hrefs exactly as authored in the markup — the same
+     * literal match NAV_TO_CMD uses. */
+    var LINK_TO_CMD = {};
+    ORDER.forEach(function (name) {
+        var page = PAGES[name];
+        if (page && page.sel) LINK_TO_CMD[page.url + page.sel] = name;
+    });
+
+    function cmdForHref(href) {
+        if (!href) return null;
+        return NAV_TO_CMD[href] || LINK_TO_CMD[href] || null;
+    }
 
     var main = document.getElementById('main');
     if (!main || !window.fetch || !window.DOMParser) return;
@@ -139,25 +159,6 @@
 
     /* ---------- commands ---------- */
 
-    function cmdHelp() {
-        var dl = el('dl', 'kv helplist');
-        ORDER.forEach(function (name) {
-            var desc = (PAGES[name] && PAGES[name].desc) || BUILTINS[name];
-            dl.appendChild(el('dt', null, name));
-            dl.appendChild(el('dd', null, desc));
-        });
-        log.appendChild(dl);
-    }
-
-    function cmdLs() {
-        print('index.html   about.html   projects.html   cv.html');
-    }
-
-    function names() {
-        /* Completion offers the alias too, even though `help` does not list it. */
-        return ORDER.concat(['whoami']);
-    }
-
     function run(raw) {
         var line = raw.trim();
         echo(line);
@@ -166,18 +167,21 @@
 
         if (!line) { scrollToPrompt(); return Promise.resolve(); }
 
-        var cmd = line.split(/\s+/)[0];
+        /* Commands are matched case-insensitively — `Cv` is `cv`. Only the
+         * lookup is folded; anything echoed back keeps what was typed. */
+        var typed = line.split(/\s+/)[0];
+        var cmd = typed.toLowerCase();
 
         if (cmd === 'clear') {
             log.replaceChildren();
             return Promise.resolve();
         }
-        if (cmd === 'help') { cmdHelp(); scrollToPrompt(); return Promise.resolve(); }
-        if (cmd === 'ls') { cmdLs(); scrollToPrompt(); return Promise.resolve(); }
 
-        var page = PAGES[cmd];
+        /* hasOwnProperty, not a bare lookup: `constructor` and friends are
+         * inherited from Object.prototype and would otherwise read as commands. */
+        var page = Object.prototype.hasOwnProperty.call(PAGES, cmd) && PAGES[cmd];
         if (!page) {
-            print('bash: ' + cmd + ': command not found', 'err');
+            print('bash: ' + typed + ': command not found', 'err');
             print("Type `help` for a list of commands.", 'muted');
             scrollToPrompt();
             return Promise.resolve();
@@ -237,6 +241,22 @@
         });
     }
 
+    /* Type a command into the prompt and run it, as if the visitor had. Used by
+     * the nav and by in-page links to printable sections. */
+    function runTyped(cmd) {
+        if (cancelTyping) cancelTyping(false);
+        typeCommand(cmd).then(function (ok) {
+            if (!ok) return;
+            input.value = '';
+            run(cmd);
+        });
+    }
+
+    /* Let modified clicks open a new tab, as any link should. */
+    function plainClick(e) {
+        return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+    }
+
     /* ---------- boot ---------- */
 
     function boot() {
@@ -286,10 +306,14 @@
 
             if (e.key === 'Tab') {
                 e.preventDefault();
-                var v = input.value.trim();
-                var hits = names().filter(function (n) { return n.indexOf(v) === 0; });
+                var typed = input.value.trim();
+                var v = typed.toLowerCase();
+                var hits = ORDER.filter(function (n) { return n.indexOf(v) === 0; });
+                /* Completing rewrites the line in the command's own case, so
+                 * `CV<Tab>` settles on `cv` rather than leaving a mixed-case
+                 * line that only works because the lookup is folded. */
                 if (hits.length === 1) input.value = hits[0];
-                else if (hits.length > 1) { echo(v); print(hits.join('   ')); scrollToPrompt(); }
+                else if (hits.length > 1) { echo(typed); print(hits.join('   ')); scrollToPrompt(); }
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 if (histPos > 0) input.value = history_[--histPos] || '';
@@ -298,6 +322,19 @@
                 if (histPos < history_.length - 1) input.value = history_[++histPos] || '';
                 else { histPos = history_.length; input.value = ''; }
             }
+        });
+
+        /* Links pointing at a section the shell can print run it as a command
+         * instead of reloading the page. Delegated, because most of these links
+         * arrive later as command output rather than existing at boot. Anything
+         * else — a PDF, GitHub, a whole page — navigates normally. */
+        main.addEventListener('click', function (e) {
+            var a = e.target.closest('a');
+            if (!a || !plainClick(e)) return;
+            var cmd = cmdForHref(a.getAttribute('href'));
+            if (!cmd) return;
+            e.preventDefault();
+            runTyped(cmd);
         });
 
         /* Clicking the terminal focuses the prompt — but not when the user is
@@ -314,15 +351,9 @@
             var cmd = NAV_TO_CMD[a.getAttribute('href')];
             if (!cmd) return;
             a.addEventListener('click', function (e) {
-                /* Let modified clicks open a new tab, as any link should. */
-                if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                if (!plainClick(e)) return;
                 e.preventDefault();
-                if (cancelTyping) cancelTyping(false);
-                typeCommand(cmd).then(function (ok) {
-                    if (!ok) return;
-                    input.value = '';
-                    run(cmd);
-                });
+                runTyped(cmd);
             });
         });
 
