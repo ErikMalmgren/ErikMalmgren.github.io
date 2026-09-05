@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — Erik Malmgren</title>
-<meta name="description" content="Background, education and skills — Erik Malmgren, backend engineer, Lund.">
+<meta name="description" content="Background, education and skills — Erik Malmgren, backend engineer, Malmö.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d1117'/%3E%3Ctext x='1.5' y='12.5' font-family='monospace' font-size='13' fill='%237ee787'%3E%3E%3C/text%3E%3C/svg%3E">
 <link rel="canonical" href="https://www.malmgren.dev/about.html">
 <link rel="stylesheet" href="/css/terminal.css">
@@ -17,11 +17,26 @@
 
 <h1 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat about.md</h1>
 
-<p class="todo">
-    Two or three short paragraphs. What drew you to backend work, what you like
-    building, and what you're looking for next. Write it the way you'd say it out
-    loud — the terminal styling is doing the personality work, so the prose can be
-    plain and direct.
+<p class="lede">
+    I'm a software engineer at Netcompany, working across the stack on client web
+    applications — Java and Spring on the backend, React on the front. The backend
+    is where most of my work happens and where I want to keep going.
+</p>
+
+<p>
+    A lot of it is integration work. I've built secure workflows against Danish public
+    infrastructure, notably NemKonto, that distribute digital and physical correspondence
+    and sensitive information to private citizens, plus the backend frameworks and batch
+    jobs behind large-scale communication processes — all of it under compliance
+    constraints for handling personal data.
+</p>
+
+<p>
+    Before that, five years at LTH. My thesis was an interview study on generative AI in
+    pair programming and code review; the interesting result was that the benefit splits
+    by seniority. Seniors gain because they spot errors in generated code immediately,
+    juniors gain a better path to self-directed learning — but only when the tool is used
+    deliberately.
 </p>
 
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat education.md</h2>
@@ -31,16 +46,33 @@
     <p class="meta">Faculty of Engineering (LTH), Lund University — 300 hp, completed August 2025</p>
     <p>
         Swedish title: <em>Civilingenjörsexamen i informations- och kommunikationsteknik</em>.
+        Master's thesis: <em>Exploring the Integration of Generative AI in Pair Programming
+        and Code Review</em> — a half-year interview study.
         Degree certificate and full transcript are linked from the <a href="/cv.html">CV</a>.
     </p>
 </div>
 
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> cat skills.md</h2>
 
-<p class="todo">
-    Replace this with what you can actually claim in an interview. Split it into
-    something like "confident" and "familiar" rather than one long list — an honest
-    short list reads far better than an exhaustive one you'd have to defend.
+<dl class="kv">
+    <dt>daily</dt>
+    <dd>Java · Spring · React with TypeScript · REST API design · PostgreSQL</dd>
+
+    <dt>tooling</dt>
+    <dd>JUnit · Mockito · Gradle · Docker · Azure DevOps pipelines</dd>
+
+    <dt>patterns</dt>
+    <dd>Third-party and public-sector system integration · batch processing</dd>
+
+    <dt>coursework</dt>
+    <dd>C (ISO C18) · Pthreads · OpenMP · GDB · Valgrind</dd>
+</dl>
+
+<p class="muted">
+    That's the list I'd defend in an interview, and it stops there. Azure DevOps means
+    build pipelines, not cloud infrastructure — on my projects that work sits with the
+    operations teams. The C and concurrency line is coursework, not production; what it
+    is worth is described below.
 </p>
 
 <h2 class="cmd"><span class="prompt" aria-hidden="true">erik@malmgren:~$</span> ls coursework/</h2>
@@ -48,11 +80,27 @@
 <p class="muted">Backend-relevant coursework from the degree, for reference:</p>
 
 <ul>
-    <li>Concurrent Programming · Multicore Programming</li>
+    <li>
+        <strong>Efficient C</strong>
+        <span class="muted">— ISO C18: pointers, manual allocation and deallocation, the type
+        system, and where undefined, unspecified and implementation-defined behaviour
+        actually bite. GDB and Valgrind, profiling with GPROF, OPROFILE and GCOV, and what
+        pipelined processors and cache memories do to the performance of code that ignores
+        them.</span>
+    </li>
+    <li>
+        <strong>Multicore Programming</strong>
+        <span class="muted">— Pthreads and OpenMP, parallelising compute-intensive sequential
+        C, memory consistency models (sequential consistency, weak ordering, release
+        consistency), lock-free data structures, cache miss classification, task
+        decomposition and load balancing. The project reduced a large weighted bidirectional
+        graph to a minimal edge set preserving every shortest-path distance, decomposed
+        across source vertices.</span>
+    </li>
+    <li>Concurrent Programming</li>
     <li>Algorithms, Data Structures and Complexity</li>
     <li>Database Technology</li>
     <li>Operating Systems · Computer Organization</li>
-    <li>Efficient C</li>
     <li>Internet Protocols · Communication Systems</li>
     <li>Computer Security · Web Security</li>
     <li>Artificial Intelligence · Language Technology</li>
