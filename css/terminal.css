@@ -161,6 +161,18 @@ h1.cmd {
     user-select: none;
 }
 
+/* A plain section heading, for pages printed whole by the shell where a
+ * prompt-style .cmd would read as a command the terminal can't run. Green and
+ * ruled so it doesn't collapse into the .entry h3 that usually follows it. */
+.section-head {
+    margin: calc(var(--step) * 1.75) 0 var(--step);
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--prompt);
+}
+
 /* ---------- content ---------- */
 
 p,

@@ -5,6 +5,7 @@
 # Claude Code machine-local settings.
 # A shared .claude/settings.json is fine to commit; this one is per-machine.
 .claude/settings.local.json
+CLAUDE.md
 
 # OS cruft
 .DS_Store

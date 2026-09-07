@@ -23,7 +23,7 @@
         projects:  { url: '/projects.html' },
         cv:        { url: '/cv.html' },
         help:      { url: '/help.html' },
-        contact:   { url: '/', sel: '#contact' },
+        contact:   { url: '/contact.html' },
         whoami:    { url: '/', sel: '#whoami' }
     };
 
@@ -37,6 +37,7 @@
         '/about.html': 'about',
         '/projects.html': 'projects',
         '/cv.html': 'cv',
+        '/contact.html': 'contact',
         '/help.html': 'help',
         /* clear.html exists so the nav link has somewhere to go without
          * JavaScript: it is the screen the command leaves you on. */
